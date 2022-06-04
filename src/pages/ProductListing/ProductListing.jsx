@@ -7,7 +7,7 @@ import { sortProducts } from '../../utils/sortProducts';
 import { getProductsByBrand } from '../../utils/getProductsByBrand';
 import { getProductBySize } from '../../utils/getProductBySize';
 import { getProductsByGender } from '../../utils/getProductsByGender';
-
+import products from "../../assets/products.json";
 const ProductListing = () => {
     const {
         productsList: {
@@ -24,7 +24,7 @@ const ProductListing = () => {
     const sortByGender = getProductsByGender(sortedData, gender);
     const filteredData = getProductsByBrand(sortByGender, brand);
     const filterBySize = getProductBySize(filteredData, size);
-    
+
     return (
         <div className="product-page-container">
             <div className="filter-section">
@@ -32,10 +32,15 @@ const ProductListing = () => {
             </div>
             <div className="products-section">
                 <SortBar />
+                <h2>Showing {filterBySize?.length}/{products?.length}</h2>
                 <div className="products">
-                    {filterBySize?.map((product) => (
-                        <ProductCard product={product} key={product?._id} />
-                    ))}
+                    {filterBySize?.length > 0 ? (
+                        filterBySize?.map((product) => (
+                            <ProductCard product={product} key={product?._id} />
+                        ))
+                    ) : (
+                        <h3>No products found.</h3>
+                    )}
                 </div>
             </div>
         </div>
